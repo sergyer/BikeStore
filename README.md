@@ -1,1 +1,1 @@
-# Spring boot 2 REST API with Angular 2 client
+# Spring boot 2 REST API with Angular 2 Client
