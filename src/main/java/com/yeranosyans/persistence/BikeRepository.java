@@ -1,6 +1,6 @@
-package com.yeranosyans.bike.persistence;
+package com.yeranosyans.persistence;
 
-import com.yeranosyans.bike.model.Bike;
+import com.yeranosyans.model.Bike;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BikeRepository extends JpaRepository<Bike,Long> {

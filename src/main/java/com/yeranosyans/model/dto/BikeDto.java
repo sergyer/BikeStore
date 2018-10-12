@@ -1,13 +1,11 @@
-package com.yeranosyans.bike.model.dto;
+package com.yeranosyans.model.dto;
 
-import com.yeranosyans.bike.model.Bike;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.yeranosyans.model.Bike;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Getter
-@AllArgsConstructor
+@Data
 public class BikeDto {
 
     //region Properties
