@@ -2,6 +2,7 @@ package com.yeranosyans.api;
 
 import com.yeranosyans.common.AbstractApiUnitTest;
 import com.yeranosyans.model.Bike;
+import com.yeranosyans.model.dto.BikeDto;
 import com.yeranosyans.service.BikeService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BikeController.class)
 public class BikeControllerTest extends AbstractApiUnitTest {
@@ -72,6 +72,58 @@ public class BikeControllerTest extends AbstractApiUnitTest {
                 .andExpect(jsonPath("$", hasSize(2)));
         //Verify
         verify(bikeService).getAll();
+        verifyNoMoreInteractions(bikeService);
+    }
+
+    @Test
+    public void shouldCreateBikeForProvidedDto() throws Exception {
+        //Test data
+        final BikeDto bikeDto = new BikeDto(
+                "Kawasaki", "Ninja", BigDecimal.TEN, "332434324234"
+        );
+        final Bike bike = createBike(5L);
+        //Mock
+        given(bikeService.create(eq(bikeDto))).willReturn(bike);
+        //API call
+        mockMvc.perform(post("/api/v1/bikes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(bikeDto)))
+                .andExpect(status().is(201))
+                .andExpect(header().string("Location", equalTo(bike.getId().toString())));
+        //Verify
+        verify(bikeService).create(eq(bikeDto));
+        verifyNoMoreInteractions(bikeService);
+    }
+
+    @Test
+    public void shouldUpdateBikeForProvidedDto() throws Exception {
+        //Test data
+        final BikeDto bikeDto = new BikeDto(
+                "Kawasaki", "Ninja", BigDecimal.TEN, "332434324234"
+        );
+        final Bike bike = createBike(5L);
+        //Mock
+        given(bikeService.update(eq(bike.getId()), eq(bikeDto))).willReturn(bike);
+        //API call
+        mockMvc.perform(put("/api/v1/bikes/{id}", bike.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(bikeDto)))
+                .andExpect(status().is(202));
+        //Verify
+        verify(bikeService).update(eq(bike.getId()), eq(bikeDto));
+        verifyNoMoreInteractions(bikeService);
+    }
+
+    @Test
+    public void shouldRemoveBikeForProvidedId() throws Exception {
+        //Test data
+        final Long bikeId = 5L;
+        //Mock
+        doNothing().when(bikeService).remove(eq(bikeId));
+        //API call
+        mockMvc.perform(delete("/api/v1/bikes/{id}", bikeId));
+        //Verify
+        verify(bikeService).remove(eq(bikeId));
         verifyNoMoreInteractions(bikeService);
     }
 
