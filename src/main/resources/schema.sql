@@ -5,7 +5,8 @@ CREATE TABLE `bike`(
   `purchase_price` DECIMAL(19, 2) NULL,
   `serial_number`  VARCHAR(255)   NULL,
   `created_on`     DATETIME     NOT NULL,
-  `updated_on`     DATETIME       NULL
+  `updated_on`     DATETIME       NULL,
+  PRIMARY KEY(`id`)
 );
 
 CREATE TABLE hibernate_sequence

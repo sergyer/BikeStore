@@ -30,6 +30,8 @@
         <!--Swagger-->
         <swagger.version>2.7.0</swagger.version>
         <swagger-ui.version>2.7.0</swagger-ui.version>
+        <!--Docker-->
+        <dockerfile-maven-version>1.4.7</dockerfile-maven-version>
     </properties>
 
     <dependencies>
@@ -107,6 +109,27 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven-version}</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>yeranosyans/bike</repository>
+                    <tag>${project.version}</tag>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>
