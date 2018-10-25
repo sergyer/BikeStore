@@ -1,9 +1,13 @@
 package com.yeranosyans.api;
 
+import com.yeranosyans.api.facade.bike.BikeControllerFacade;
+import com.yeranosyans.api.facade.bike.model.CreateBikeModel;
+import com.yeranosyans.api.facade.bike.model.UpdateBikeModel;
+import com.yeranosyans.api.facade.bike.model.ViewBikeModel;
+import com.yeranosyans.api.rest.controllers.bike.BikeController;
 import com.yeranosyans.common.AbstractApiUnitTest;
 import com.yeranosyans.model.Bike;
 import com.yeranosyans.model.dto.BikeDto;
-import com.yeranosyans.service.BikeService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,7 +33,7 @@ public class BikeControllerTest extends AbstractApiUnitTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private BikeService bikeService;
+    private BikeControllerFacade bikeControllerFacade;
     //endregion
 
 
@@ -38,9 +42,9 @@ public class BikeControllerTest extends AbstractApiUnitTest {
     public void shouldReturnSingleBikeWhenIdIsProvided() throws Exception {
         //Test data
         final Long bikeId = 1L;
-        final Bike bike = createBike(bikeId);
+        final ViewBikeModel bike = createViewBikeModel(bikeId);
         //Mock
-        given(bikeService.getById(eq(bike.getId()))).willReturn(bike);
+        given(bikeControllerFacade.getBike(eq(bike.getId()))).willReturn(bike);
         //API call
         mockMvc.perform(get("/api/v1/bikes/{bikeId}", bike.getId())
                 .contentType(MediaType.APPLICATION_JSON))
@@ -51,8 +55,8 @@ public class BikeControllerTest extends AbstractApiUnitTest {
                 .andExpect(jsonPath("$.purchasePrice", is(equalTo(bike.getPurchasePrice().intValue()))))
                 .andExpect(jsonPath("$.serialNumber", is(equalTo(bike.getSerialNumber()))));
         //Verify
-        verify(bikeService).getById(eq(bikeId));
-        verifyNoMoreInteractions(bikeService);
+        verify(bikeControllerFacade).getBike(eq(bikeId));
+        verifyNoMoreInteractions(bikeControllerFacade);
     }
 
 
@@ -61,57 +65,57 @@ public class BikeControllerTest extends AbstractApiUnitTest {
         //Test data
         final Long bikeId1 = 1L;
         final Long bikeId2 = 2L;
-        final Bike bike1 = createBike(bikeId1);
-        final Bike bike2 = createBike(bikeId2);
+        final ViewBikeModel bike1 = createViewBikeModel(bikeId1);
+        final ViewBikeModel bike2 = createViewBikeModel(bikeId2);
         //Mock
-        given(bikeService.getAll()).willReturn(Arrays.asList(bike1, bike2));
+        given(bikeControllerFacade.getAll()).willReturn(Arrays.asList(bike1, bike2));
         //API call
         mockMvc.perform(get("/api/v1/bikes")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$", hasSize(2)));
         //Verify
-        verify(bikeService).getAll();
-        verifyNoMoreInteractions(bikeService);
+        verify(bikeControllerFacade).getAll();
+        verifyNoMoreInteractions(bikeControllerFacade);
     }
 
     @Test
     public void shouldCreateBikeForProvidedDto() throws Exception {
         //Test data
-        final BikeDto bikeDto = new BikeDto(
+        final CreateBikeModel createBikeModel = new CreateBikeModel(
                 "Kawasaki", "Ninja", BigDecimal.TEN, "332434324234"
         );
-        final Bike bike = createBike(5L);
+        final ViewBikeModel bike = createViewBikeModel(5L);
         //Mock
-        given(bikeService.create(eq(bikeDto))).willReturn(bike);
+        given(bikeControllerFacade.createBike(eq(createBikeModel))).willReturn(bike);
         //API call
         mockMvc.perform(post("/api/v1/bikes")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(bikeDto)))
+                .content(asJsonString(createBikeModel)))
                 .andExpect(status().is(201))
                 .andExpect(header().string("Location", equalTo(bike.getId().toString())));
         //Verify
-        verify(bikeService).create(eq(bikeDto));
-        verifyNoMoreInteractions(bikeService);
+        verify(bikeControllerFacade).createBike(eq(createBikeModel));
+        verifyNoMoreInteractions(bikeControllerFacade);
     }
 
     @Test
     public void shouldUpdateBikeForProvidedDto() throws Exception {
         //Test data
-        final BikeDto bikeDto = new BikeDto(
+        final UpdateBikeModel updateBikeModel = new UpdateBikeModel(
                 "Kawasaki", "Ninja", BigDecimal.TEN, "332434324234"
         );
-        final Bike bike = createBike(5L);
+        final ViewBikeModel bike = createViewBikeModel(5L);
         //Mock
-        given(bikeService.update(eq(bike.getId()), eq(bikeDto))).willReturn(bike);
+        given(bikeControllerFacade.updateBike(eq(bike.getId()), eq(updateBikeModel))).willReturn(bike);
         //API call
         mockMvc.perform(put("/api/v1/bikes/{id}", bike.getId())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(bikeDto)))
+                .content(asJsonString(updateBikeModel)))
                 .andExpect(status().is(202));
         //Verify
-        verify(bikeService).update(eq(bike.getId()), eq(bikeDto));
-        verifyNoMoreInteractions(bikeService);
+        verify(bikeControllerFacade).updateBike(eq(bike.getId()), eq(updateBikeModel));
+        verifyNoMoreInteractions(bikeControllerFacade);
     }
 
     @Test
@@ -119,12 +123,12 @@ public class BikeControllerTest extends AbstractApiUnitTest {
         //Test data
         final Long bikeId = 5L;
         //Mock
-        doNothing().when(bikeService).remove(eq(bikeId));
+        doNothing().when(bikeControllerFacade).remove(eq(bikeId));
         //API call
         mockMvc.perform(delete("/api/v1/bikes/{id}", bikeId));
         //Verify
-        verify(bikeService).remove(eq(bikeId));
-        verifyNoMoreInteractions(bikeService);
+        verify(bikeControllerFacade).remove(eq(bikeId));
+        verifyNoMoreInteractions(bikeControllerFacade);
     }
 
     //endregion
