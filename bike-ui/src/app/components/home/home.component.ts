@@ -9,11 +9,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  bikeModels: string[] = [
-    'GLOBO MTB 29 FULL SUSPENSION',
-    'GLOBO CARBON FIBER RACE SERIES',
-    'GLOBO TIME TRIAL BLADE'
-];
+  bikeModels: string[];
   bikeRegistrationForm: FormGroup;
   validMessage: string= "";; 
   
@@ -21,6 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private bikeService: BikeService) { }
 
   ngOnInit() {
+    this.bikeModels= this.bikeService.getBikeModels();
     this.bikeRegistrationForm = new FormGroup({
       name: new FormControl('',Validators.required),
       model: new FormControl('',Validators.required),

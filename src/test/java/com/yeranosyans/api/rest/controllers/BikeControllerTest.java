@@ -1,4 +1,4 @@
-package com.yeranosyans.api;
+package com.yeranosyans.api.rest.controllers;
 
 import com.yeranosyans.api.facade.bike.BikeControllerFacade;
 import com.yeranosyans.api.facade.bike.model.CreateBikeModel;
@@ -6,8 +6,6 @@ import com.yeranosyans.api.facade.bike.model.UpdateBikeModel;
 import com.yeranosyans.api.facade.bike.model.ViewBikeModel;
 import com.yeranosyans.api.rest.controllers.bike.BikeController;
 import com.yeranosyans.common.AbstractApiUnitTest;
-import com.yeranosyans.model.Bike;
-import com.yeranosyans.model.dto.BikeDto;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
