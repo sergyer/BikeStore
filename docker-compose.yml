@@ -1,0 +1,14 @@
+version: '3.6'
+services:
+  backend:
+    container_name: backend
+    build: ./
+    ports:
+      - "9090:8080"
+  frontend:
+    container_name: frontend
+    build: ./bike-ui/.
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

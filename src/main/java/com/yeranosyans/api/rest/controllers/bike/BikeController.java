@@ -4,8 +4,6 @@ import com.yeranosyans.api.facade.bike.BikeControllerFacade;
 import com.yeranosyans.api.facade.bike.model.CreateBikeModel;
 import com.yeranosyans.api.facade.bike.model.UpdateBikeModel;
 import com.yeranosyans.api.facade.bike.model.ViewBikeModel;
-import com.yeranosyans.model.Bike;
-import com.yeranosyans.model.dto.BikeDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/api/v1/bikes")
+@RequestMapping("/server/api/v1/bikes")
 @Api(description = "Bike registration system api")
 public class BikeController {
 
