@@ -44,7 +44,7 @@ public class BikeControllerTest extends AbstractApiUnitTest {
         //Mock
         given(bikeControllerFacade.getBike(eq(bike.getId()))).willReturn(bike);
         //API call
-        mockMvc.perform(get("/api/v1/bikes/{bikeId}", bike.getId())
+        mockMvc.perform(get("/server/api/v1/bikes/{bikeId}", bike.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$.id", is(equalTo(bike.getId().intValue()))))
@@ -68,7 +68,7 @@ public class BikeControllerTest extends AbstractApiUnitTest {
         //Mock
         given(bikeControllerFacade.getAll()).willReturn(Arrays.asList(bike1, bike2));
         //API call
-        mockMvc.perform(get("/api/v1/bikes")
+        mockMvc.perform(get("/server/api/v1/bikes")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$", hasSize(2)));
@@ -87,7 +87,7 @@ public class BikeControllerTest extends AbstractApiUnitTest {
         //Mock
         given(bikeControllerFacade.createBike(eq(createBikeModel))).willReturn(bike);
         //API call
-        mockMvc.perform(post("/api/v1/bikes")
+        mockMvc.perform(post("/server/api/v1/bikes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(createBikeModel)))
                 .andExpect(status().is(201))
@@ -107,7 +107,7 @@ public class BikeControllerTest extends AbstractApiUnitTest {
         //Mock
         given(bikeControllerFacade.updateBike(eq(bike.getId()), eq(updateBikeModel))).willReturn(bike);
         //API call
-        mockMvc.perform(put("/api/v1/bikes/{id}", bike.getId())
+        mockMvc.perform(put("/server/api/v1/bikes/{id}", bike.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(updateBikeModel)))
                 .andExpect(status().is(202));
@@ -123,7 +123,7 @@ public class BikeControllerTest extends AbstractApiUnitTest {
         //Mock
         doNothing().when(bikeControllerFacade).remove(eq(bikeId));
         //API call
-        mockMvc.perform(delete("/api/v1/bikes/{id}", bikeId));
+        mockMvc.perform(delete("/server/api/v1/bikes/{id}", bikeId));
         //Verify
         verify(bikeControllerFacade).remove(eq(bikeId));
         verifyNoMoreInteractions(bikeControllerFacade);
