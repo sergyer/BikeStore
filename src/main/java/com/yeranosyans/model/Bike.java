@@ -16,12 +16,13 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(of = {"name","model"})
+@EqualsAndHashCode(of = {"name", "model"})
 @Entity
 public class Bike implements Serializable {
+
     //region Properties
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String model;

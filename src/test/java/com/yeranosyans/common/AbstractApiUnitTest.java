@@ -1,25 +1,23 @@
 package com.yeranosyans.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yeranosyans.model.Bike;
+import com.yeranosyans.api.facade.bike.model.ViewBikeModel;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @RunWith(SpringRunner.class)
 public abstract class AbstractApiUnitTest {
 
-    protected Bike createBike(final Long bikeId) {
-        final Bike bike = new Bike();
+    //region Helper methods
+    protected ViewBikeModel createViewBikeModel(final Long bikeId) {
+        final ViewBikeModel bike = new ViewBikeModel();
         bike.setId(bikeId);
         bike.setPurchasePrice(BigDecimal.TEN);
         bike.setSerialNumber("131232133");
         bike.setName("Kawasaki");
         bike.setModel("Ninja");
-        bike.setCreatedOn(LocalDateTime.now());
-        bike.setUpdatedOn(bike.getCreatedOn());
         return bike;
     }
 
@@ -32,5 +30,7 @@ public abstract class AbstractApiUnitTest {
             throw new RuntimeException(e);
         }
     }
+    //endregion
+
 
 }

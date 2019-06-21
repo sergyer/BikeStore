@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <a class="btn btn=primary" routerLink="/admin">Back to List</a>
+  </div>
+  <div class="form-group">
+      <label>Bike Id</label>
+      <div class="form-control">{{bike.id}}</div>
+    </div>
+  <div class="form-group">
+    <label>Bike Name</label>
+    <div class="form-control">{{bike.name}}</div>
+  </div>
+  <div class="form-group">
+    <label>Bike Model</label>
+    <div class="form-control">{{bike.model}}</div>
+  </div>
+  <div class="form-group">
+    <label>Bike Serial Number</label>
+    <div class="form-control">{{bike.serialNumber}}</div>
+  </div>
+  <div class="form-group">
+    <label>Bike Purchase Price</label>
+    <div class="form-control">{{bike.purchasePrice}}</div>
+  </div>
+  <div class="row">
+      <a class="btn btn=primary" [routerLink]="['/admin/edit',bike.id]">Edit</a>
+    </div>
+</div>

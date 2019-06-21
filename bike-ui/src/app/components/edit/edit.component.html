@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        <a class="btn btn=primary" routerLink="/admin">Back to List</a>
+      </div>
+    <form [formGroup]="bikeEditForm" (ngSubmit)="updateBike()" novalidate>
+      <div *ngIf="validMessage != ''">
+        <h3 class="has-info">{{validMessage}}</h3>
+      </div>
+      <div class="form-group">
+        <label>Bike Name</label>
+        <input type="text" class="form-control" formControlName="name" required autofocus/>
+      </div>
+      <div class="form-group">
+        <label>Bike Serial Number</label>
+        <input type="text" class="form-control" formControlName="serialNumber" required/>
+      </div>
+      <div class="form-group">
+          <label>Bike Model</label>
+          <div class="form-control">{{bike.model}}</div>
+        </div>
+      <div class="form-group">
+          <label>Choose Model</label>
+          <select class="form-control" formControlName="model" required>
+            <option *ngFor="let m of bikeModels"
+                    [value]="m">
+                    {{m}}
+            </option>
+          </select>
+        </div>
+      <div class="form-group">
+        <label>Purchase Price</label>
+        <input type="text" class="form-control" formControlName="purchasePrice" required/>
+        <input type="hidden" class="form-control" formControlName="id" required/>
+      </div>
+      <button type="submit" class="btn btn-primary" >Save</button>
+    </form>
+    <div class="form-group">
+      <button  class="btn btn-primary" (click)='removeBike(bike.id)'>Delete</button>  
+    </div>
+  </div>
