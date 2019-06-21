@@ -4,3 +4,5 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?style=social&label=Follow)](https://twitter.com/dev0xx)
 
 # Spring boot 2 REST API with Angular 2 Client
+
+![](cloning.gif)
