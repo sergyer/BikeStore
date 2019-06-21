@@ -5,4 +5,8 @@
 
 # Spring boot 2 REST API with Angular 2 Client
 
+1. Just clone the project and run 'mvn package -DskipTests'
+
 ![](cloning.gif)
+
+2. Run 'docker-compose up'  and enjoy :call_me_hand
