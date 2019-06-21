@@ -10,3 +10,5 @@
 ![](cloning.gif)
 
 2. Run 'docker-compose up'  and enjoy :call_me_hand:
+
+![](running.gif)
