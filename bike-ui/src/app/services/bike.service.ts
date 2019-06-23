@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-
-const httpOptions = {headers: new HttpHeaders({'Content-Type':'application/json'}) }
+const token = localStorage.getItem('access_token');
+const httpOptions = {headers: new HttpHeaders({'Content-Type':'application/json'}).set('Authorization','Bearer '+token) }
 
 @Injectable()
 export class BikeService {
@@ -12,16 +12,16 @@ export class BikeService {
   constructor(private http:HttpClient) { }
 
   getBikes(){
-    return this.http.get(this.apiUrl);
+    return this.http.get(this.apiUrl,httpOptions);
   }
 
   getBike(id:number){
-    return this.http.get(this.apiUrl+id);
+    return this.http.get(this.apiUrl+id,httpOptions);
   }
 
   createBike(bike){
     let body = JSON.stringify(bike);
-    return this.http.post(this.apiUrl,body,httpOptions);
+    return this.http.post(this.apiUrl,body,{headers: new HttpHeaders({'Content-Type':'application/json'})});
   }
 
   updateBike(id:number,bike){
@@ -30,7 +30,7 @@ export class BikeService {
   }
 
   removeBike(id:number){
-    return this.http.delete(this.apiUrl+id);
+    return this.http.delete(this.apiUrl+id,httpOptions);
   }
 
   getBikeModels() : string[]{
