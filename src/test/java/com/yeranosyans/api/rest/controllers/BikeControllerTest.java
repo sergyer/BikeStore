@@ -6,12 +6,15 @@ import com.yeranosyans.api.facade.bike.model.UpdateBikeModel;
 import com.yeranosyans.api.facade.bike.model.ViewBikeModel;
 import com.yeranosyans.api.rest.controllers.bike.BikeController;
 import com.yeranosyans.common.AbstractApiUnitTest;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -21,6 +24,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BikeController.class)
@@ -30,10 +34,20 @@ public class BikeControllerTest extends AbstractApiUnitTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private WebApplicationContext context;
+
     @MockBean
     private BikeControllerFacade bikeControllerFacade;
     //endregion
 
+
+    @Before
+    public void setUp() throws Exception {
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .build();
+    }
 
     //region Test cases
     @Test
@@ -70,6 +84,7 @@ public class BikeControllerTest extends AbstractApiUnitTest {
         //API call
         mockMvc.perform(get("/server/api/v1/bikes")
                 .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$", hasSize(2)));
         //Verify
